@@ -1,9 +1,13 @@
+const express = require("express");
 const axios = require("axios");
+
+const app = express();
+const PORT = process.env.PORT || 3000;
 
 const SUPABASE_URL = process.env.SUPABASE_URL;
 const SUPABASE_KEY = process.env.SUPABASE_KEY;
 
-module.exports = async (req, res) => {
+app.get("/api/lyrics", async (req, res) => {
     const { title } = req.query;
 
     if (!title) {
@@ -27,4 +31,8 @@ module.exports = async (req, res) => {
     } catch (error) {
         return res.status(500).json({ error: "Erro ao buscar os dados", message: error.message });
     }
-};
+});
+
+app.listen(PORT, () => {
+    console.log(`✅ Servidor rodando em http://localhost:${PORT}`);
+});
